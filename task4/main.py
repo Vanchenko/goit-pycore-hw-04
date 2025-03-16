@@ -1,6 +1,7 @@
 from colorama import Fore, init, Style
 
 init(autoreset=True)
+# парсер команд бота
 def parse_input(user_input):
     try:
         cmd, *args = user_input.split()
@@ -8,7 +9,7 @@ def parse_input(user_input):
         return cmd, *args
     except ValueError:
         return "", []
-
+# функція додавання контакта
 def add_contact(args, contacts):
     try:
         if len(args) != 2:
@@ -21,6 +22,7 @@ def add_contact(args, contacts):
     except Exception as e:
         return print(Fore.RED + f"Error adding contact: {type(e).__name__}, {e}" + Style.RESET_ALL)
 
+# функція видачі всіх контактів зі словника
 def get_all_contacts(contacts: dict):
     if not contacts:
         return print(Fore.RED + "Contacts are empty"+ Style.RESET_ALL)
@@ -30,6 +32,7 @@ def get_all_contacts(contacts: dict):
             output += f"\n{name}: {phone}"
         return output
 
+# функція видачі одного контакту зі словника
 def get_contact(args: list, contacts: dict):
     try:
         if len(args) != 1:
@@ -43,6 +46,7 @@ def get_contact(args: list, contacts: dict):
     except Exception as e:
         return print(Fore.RED + f"Error getting contact: {type(e).__name__}, {e}" + Style.RESET_ALL)
 
+# функція зміни телефону у одного контакту зі словника
 def change_contact(args: list, contacts: dict) -> str:
     try:
         if len(args) != 2:
@@ -57,13 +61,16 @@ def change_contact(args: list, contacts: dict) -> str:
     except Exception as e:
         return print(Fore.RED + f"Error changing contact: {type(e).__name__}, {e}" + Style.RESET_ALL)
 
+# головна функція боту
 def main():
     contacts = {}
     print("Welcome to the assistant bot!")
+    # довічний цикл
     while True:
+        # ввод команди Користувачем
         user_input = input(Fore.GREEN + "Enter a command: " + Style.RESET_ALL)
         command, *args = parse_input(user_input)
-
+        # аналіз введеної команди і виклик відповідної функції
         if command in ["close", "exit"]:
             print("Good bye!")
             break
@@ -80,5 +87,6 @@ def main():
         else:
             print(Fore.RED + "Invalid command." + Style.RESET_ALL)
 
+# перевірка точки "входу" і запуск бота
 if __name__ == "__main__":
     main()
